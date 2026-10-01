@@ -313,3 +313,7 @@ form input:user-valid {
   outline: 3px solid #17452e;
   outline-offset: 3px;
 }
+/* Facilita a identificação dos campos do formulário. */
+form input {
+  border-color: #687a70;
+}
