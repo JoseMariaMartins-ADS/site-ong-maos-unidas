@@ -1,0 +1,295 @@
+:root {
+  --cor-primaria: #176b5b;
+  --cor-primaria-escura: #104c41;
+  --cor-secundaria: #e6a23c;
+  --cor-destaque: #b54735;
+  --cor-fundo: #f7faf8;
+  --cor-superficie: #ffffff;
+  --cor-texto: #1f2933;
+  --cor-texto-suave: #52616b;
+  --cor-borda: #d7e3dc;
+   --texto-pequeno: 0.875rem;
+  --texto-normal: 1rem;
+  --texto-medio: 1.25rem;
+  --texto-grande: 1.75rem;
+  --texto-titulo: 2.5rem;
+   --espaco-1: 0.5rem;
+  --espaco-2: 1rem;
+  --espaco-3: 1.5rem;
+  --espaco-4: 2rem;
+  --espaco-5: 3rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: var(--texto-normal);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+}
+
+header {
+  background-color: var(--cor-primaria);
+  color: var(--cor-superficie);
+  padding: var(--espaco-4);
+  display: flex;
+flex-direction: column;
+gap: var(--espaco-2);
+}
+
+header a {
+  color: var(--cor-superficie);
+}
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--espaco-4);
+}
+nav {
+  display: flex;
+  gap: var(--espaco-2);
+  flex-wrap: wrap;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+.grade-projetos {
+  display: grid;
+ grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--espaco-3);
+}
+
+.grade-projetos h2 {
+  grid-column: 1 / -1;
+}
+.grade-projetos article {
+  grid-column: span 6;
+  display: flex;
+flex-direction: column;
+gap: var(--espaco-1);
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 12px;
+  padding: var(--espaco-3);
+}
+form label {
+  display: block;
+  margin-top: var(--espaco-2);
+}
+
+form input {
+  display: block;
+  width: 100%;
+  padding: var(--espaco-1);
+}
+form fieldset {
+  margin-bottom: var(--espaco-2);
+  padding: var(--espaco-2);
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+}
+
+form button {
+  background-color: var(--cor-primaria);
+  color: var(--cor-superficie);
+  border: 0;
+  border-radius: 8px;
+  padding: var(--espaco-2) var(--espaco-3);
+  cursor: pointer;
+}
+footer {
+  padding: var(--espaco-3) var(--espaco-4);
+  color: var(--cor-texto-suave);
+  text-align: center;
+  border-top: 1px solid var(--cor-borda);
+}
+
+@media (max-width: 1280px) {
+  main {
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1024px) {
+  main {
+    padding: var(--espaco-3);
+  }
+}
+@media (max-width: 768px) {
+  .grade-projetos {
+    gap: var(--espaco-2);
+  }
+}
+
+@media (max-width: 600px) {
+  .grade-projetos article {
+    grid-column: span 12;
+  }
+}
+@media (max-width: 400px) {
+  main {
+    padding: var(--espaco-2);
+  }
+}
+.botao-menu {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .botao-menu {
+        display: block;
+        width: fit-content;
+        padding: var(--espaco-1) var(--espaco-2);
+        background: transparent;
+        color: inherit;
+        border: 1px solid currentColor;
+        border-radius: 6px;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    #menu-principal {
+        display: none;
+        flex-direction: column;
+    }
+
+    #menu-principal.aberto {
+        display: flex;
+    }
+}
+.submenu summary {
+    cursor: pointer;
+}
+.submenu {
+    position: relative;
+}
+
+.submenu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+}
+@media (min-width: 601px) {
+    .submenu-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        min-width: 220px;
+        background: #17452e;
+        z-index: 10;
+    }
+}
+.submenu summary:hover,
+.submenu-links a:hover {
+    background-color: rgba(255, 255, 255, 0.18);
+}
+
+.submenu summary:focus-visible,
+.submenu-links a:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+form button {
+  transition: filter 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+form button:hover:not(:disabled) {
+  filter: brightness(0.85);
+}
+
+form button:focus-visible {
+  outline: 3px solid var(--cor-primaria);
+  outline-offset: 3px;
+}
+
+form button:active:not(:disabled) {
+  transform: translateY(2px);
+}
+
+form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* Aparência e validação dos campos */
+form input {
+  border: 2px solid var(--cor-borda);
+  border-radius: 6px;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+form input:focus {
+  outline: 2px solid var(--cor-primaria);
+  outline-offset: 2px;
+}
+
+form input:user-invalid {
+  border-color: #b42318;
+  background-color: #fff1f0;
+}
+
+form input:user-valid {
+  border-color: #217a3c;
+  background-color: #f0fff4;
+}
+/* Etiquetas de categoria dos projetos */
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: var(--cor-primaria);
+  color: var(--cor-superficie);
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+/* Caixa de aviso do cadastro */
+.alerta {
+  margin-bottom: var(--espaco-3);
+  padding: var(--espaco-2);
+  border: 1px solid var(--cor-primaria);
+  border-left: 5px solid var(--cor-primaria);
+  border-radius: 8px;
+  background-color: #eef7f0;
+  color: #17452e;
+}
+/* Mensagem de confirmação */
+.toast {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: min(360px, calc(100% - 32px));
+  box-sizing: border-box;
+  padding: 16px;
+  background-color: #17452e;
+  color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+}
+.toast[hidden] {
+  display: none;
+}
+
+.toast p {
+  margin: 0 0 12px;
+}
+
+.toast button {
+  padding: 8px 12px;
+  background-color: #ffffff;
+  color: #17452e;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.toast button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
