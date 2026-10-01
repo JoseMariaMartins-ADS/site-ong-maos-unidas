@@ -168,3 +168,14 @@ ajustarLinks();
   window.addEventListener("hashchange", renderizar);
   renderizar();
 }
+// Leva o foco ao conteúdo sem alterar a rota da SPA.
+document.querySelector(".pular-conteudo")?.addEventListener("click", function (evento) {
+  evento.preventDefault();
+
+  const conteudo = document.querySelector("#conteudo-principal");
+
+  if (conteudo) {
+    conteudo.focus({ preventScroll: true });
+    conteudo.scrollIntoView({ block: "start" });
+  }
+});
