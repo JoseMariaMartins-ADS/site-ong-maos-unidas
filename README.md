@@ -135,3 +135,40 @@ uma preparação de versão ou uma correção urgente real.
 O projeto é uma demonstração acadêmica de front-end.
 Não possui autenticação, cadastro real de voluntários,
 validação oficial de CPF ou integração com serviços externos.
+## Geração da versão otimizada
+
+É necessário ter Node.js e npm instalados.
+
+No terminal, dentro da pasta do projeto, execute:
+
+```powershell
+npm.cmd ci
+npm.cmd run build
+```
+
+O arquivo build.cjs gera a pasta dist com HTML, CSS e JavaScript
+minificados, preservando a estrutura de pastas e os arquivos originais.
+A imagem voluntarios.jpg é copiada sem alteração.
+
+Para abrir a versão otimizada no Windows:
+
+```powershell
+Start-Process .\dist\html\index.html
+```
+
+Também são geradas cópias dos arquivos em gzip.
+Seu uso depende da configuração do servidor.
+A pasta dist e as dependências em node_modules são ignoradas pelo Git.
+
+## Testes realizados nesta etapa
+
+- Navegação para os projetos na versão otimizada.
+- Formatação automática do CPF no cadastro.
+- Envio demonstrativo com mensagem de confirmação.
+- Limpeza do formulário e do rascunho após o envio, conferida com F5.
+- Navegação por teclado e uso do link para pular ao conteúdo.
+- Leitura dos campos e do botão pelo Narrador do Windows.
+- Verificação visual com zoom de 200%.
+- Melhoria do contraste das bordas dos campos.
+
+Esses testes não constituem uma auditoria completa de conformidade WCAG.
