@@ -317,3 +317,105 @@ form input:user-valid {
 form input {
   border-color: #687a70;
 }
+/* Botão para ativar ou desativar o alto contraste */
+.botao-contraste {
+  align-self: flex-start;
+  padding: 10px 16px;
+  border: 2px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.botao-contraste:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* Cores do modo de alto contraste */
+body.alto-contraste {
+  --cor-primaria: #000000;
+  --cor-primaria-escura: #000000;
+  --cor-fundo: #000000;
+  --cor-superficie: #000000;
+  --cor-texto: #ffffff;
+  --cor-texto-suave: #ffffff;
+  --cor-borda: #ffffff;
+
+  background-color: #000000;
+  color: #ffffff;
+  color-scheme: dark;
+}
+
+body.alto-contraste header,
+body.alto-contraste footer,
+body.alto-contraste .grade-projetos article,
+body.alto-contraste .submenu-links,
+body.alto-contraste .alerta,
+body.alto-contraste .toast,
+body.alto-contraste .badge,
+body.alto-contraste .pular-conteudo {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+body.alto-contraste .toast,
+body.alto-contraste .badge {
+  border: 2px solid #ffffff;
+}
+
+body.alto-contraste a {
+  color: #ffff00;
+  text-decoration: underline;
+}
+
+body.alto-contraste form input,
+body.alto-contraste form input:user-valid,
+body.alto-contraste form input:user-invalid {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+body.alto-contraste form input::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+body.alto-contraste form input[aria-invalid="true"],
+body.alto-contraste form input:user-invalid {
+  border-color: #ffff00;
+}
+
+body.alto-contraste form p[id^="erro-"] {
+  color: #ffff00 !important;
+}
+
+body.alto-contraste button {
+  background-color: #000000;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+body.alto-contraste form button:hover:not(:disabled),
+body.alto-contraste .submenu summary:hover,
+body.alto-contraste .submenu-links a:hover,
+body.alto-contraste .botao-contraste:hover {
+  background-color: #ffffff;
+  color: #000000;
+  filter: none;
+}
+
+body.alto-contraste :focus-visible,
+body.alto-contraste form input:focus {
+  outline: 3px solid #ffff00;
+  outline-offset: 4px;
+}
+/* Mantém as bordas de erro amarelas no alto contraste. */
+body.alto-contraste form input[aria-invalid="true"],
+body.alto-contraste form input:user-invalid {
+  border-color: #ffff00 !important;
+}

@@ -172,3 +172,26 @@ A pasta dist e as dependências em node_modules são ignoradas pelo Git.
 - Melhoria do contraste das bordas dos campos.
 
 Esses testes não constituem uma auditoria completa de conformidade WCAG.
+## Modo de alto contraste
+
+O botão "Alto contraste", no cabeçalho, permite ativar e desativar
+uma apresentação com fundo preto, textos e bordas brancos,
+links amarelos e indicadores de foco amarelos.
+
+O JavaScript aplica a classe `alto-contraste` ao body.
+O botão utiliza `aria-pressed` para informar seu estado.
+A preferência é salva no localStorage e restaurada ao recarregar.
+Se o armazenamento estiver bloqueado, o botão continua funcionando.
+
+As mensagens e bordas dos campos inválidos ficam amarelas.
+Os erros também possuem explicações em texto.
+
+Testes manuais realizados:
+- Ativação e desativação do modo.
+- Manutenção da preferência após recarregar com F5.
+- Navegação entre início, projetos e cadastro.
+- Foco visível nos campos e uso do botão pelo teclado.
+- Mensagens e bordas de erro com o formulário vazio.
+- Geração do build e alternância na versão otimizada.
+
+Esses testes não representam uma auditoria completa de conformidade WCAG.
