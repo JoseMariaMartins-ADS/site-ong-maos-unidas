@@ -179,3 +179,44 @@ document.querySelector(".pular-conteudo")?.addEventListener("click", function (e
     conteudo.scrollIntoView({ block: "start" });
   }
 });
+// BOTÃO E PREFERÊNCIA DE ALTO CONTRASTE
+(function () {
+  const cabecalho = document.querySelector("header");
+
+  if (!cabecalho) {
+    return;
+  }
+
+  const chaveContraste = "maos-unidas-alto-contraste";
+  const botao = document.createElement("button");
+
+  botao.type = "button";
+  botao.className = "botao-contraste";
+  botao.textContent = "Alto contraste";
+  botao.setAttribute("aria-pressed", "false");
+
+  cabecalho.appendChild(botao);
+
+  function aplicarContraste(ativado) {
+    document.body.classList.toggle("alto-contraste", ativado);
+    botao.setAttribute("aria-pressed", String(ativado));
+  }
+
+  try {
+    aplicarContraste(localStorage.getItem(chaveContraste) === "true");
+  } catch {
+    aplicarContraste(false);
+  }
+
+  botao.addEventListener("click", function () {
+    const ativado = !document.body.classList.contains("alto-contraste");
+
+    aplicarContraste(ativado);
+
+    try {
+      localStorage.setItem(chaveContraste, String(ativado));
+    } catch {
+      // O botão continua funcionando se o armazenamento estiver bloqueado.
+    }
+  });
+})();
