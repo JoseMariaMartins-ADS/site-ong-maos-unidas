@@ -1,0 +1,29 @@
+{
+  "name": "site-ong",
+  "version": "1.0.0",
+  "description": "Projeto acadêmico de Desenvolvimento Front-End para Web,\r do curso de Análise e Desenvolvimento de Sistemas da\r Universidade Cruzeiro do Sul.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoseMariaMartins-ADS/site-ong-maos-unidas.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JoseMariaMartins-ADS/site-ong-maos-unidas/issues"
+  },
+  "homepage": "https://github.com/JoseMariaMartins-ADS/site-ong-maos-unidas#readme",
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "html-minifier-terser": "7.2.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}
