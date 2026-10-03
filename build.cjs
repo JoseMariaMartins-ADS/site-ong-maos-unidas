@@ -2,6 +2,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const { gzipSync } = require("node:zlib");
 const esbuild = require("esbuild");
+const sharp = require("sharp");
 const { minify } = require("html-minifier-terser");
 
 const raiz = __dirname;
@@ -19,12 +20,79 @@ const arquivos = [
 ];
 
 async function prepararSite() {
-  // Confere os arquivos antes de gerar a versão otimizada.
+  // Confere os arquivos antes de gerar a publicação.
   for (const arquivo of arquivos) {
     await fs.access(path.join(raiz, arquivo));
   }
 
-  await fs.access(path.join(raiz, "Imagens/voluntarios.jpg"));
+  const fotoOriginal = await fs.readFile(
+    path.join(raiz, "Imagens/voluntarios.jpg")
+  );
+
+  const inicioOriginal = await fs.readFile(
+    path.join(raiz, "html/index.html"),
+    "utf8"
+  );
+
+  const padraoFoto =
+    /<img\b[^>]*\bsrc=["']\.\.\/Imagens\/voluntarios\.jpg["'][^>]*>/gi;
+
+  const fotosEncontradas = inicioOriginal.match(padraoFoto);
+
+  if (!fotosEncontradas || fotosEncontradas.length !== 1) {
+    throw new Error(
+      "Esperava encontrar uma foto voluntarios.jpg em html/index.html."
+    );
+  }
+
+  // Prepara as imagens sem alterar a foto original.
+  const imagens = [];
+
+  for (const largura of [500, 1000]) {
+    const resultado = await sharp(fotoOriginal)
+      .rotate()
+      .resize({ width: largura, withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toBuffer({ resolveWithObject: true });
+
+    imagens.push({
+      arquivo: `Imagens/voluntarios-${largura}.webp`,
+      ...resultado
+    });
+  }
+
+  const jpeg = await sharp(fotoOriginal)
+    .rotate()
+    .resize({ width: 1000, withoutEnlargement: true })
+    .jpeg({ quality: 80, mozjpeg: true })
+    .toBuffer({ resolveWithObject: true });
+
+  imagens.push({
+    arquivo: "Imagens/voluntarios.jpg",
+    ...jpeg
+  });
+
+  // Mantém o texto alternativo e ajusta as dimensões.
+  const fotoPequena = imagens[0];
+  const fotoGrande = imagens[1];
+
+  const tagFoto = fotosEncontradas[0]
+    .replace(/\s+(width|height)=["'][^"']*["']/gi, "")
+    .replace(
+      /\s*\/?>$/,
+      ` width="${fotoPequena.info.width}" height="${fotoPequena.info.height}">`
+    );
+
+  const imagemResponsiva = `
+    <picture>
+      <source
+        type="image/webp"
+        srcset="../${fotoPequena.arquivo} ${fotoPequena.info.width}w,
+                ../${fotoGrande.arquivo} ${fotoGrande.info.width}w"
+        sizes="(max-width: 500px) 100vw, 500px">
+      ${tagFoto}
+    </picture>
+  `;
 
   // Limpa somente a pasta de arquivos gerados.
   await fs.rm(destino, { recursive: true, force: true });
@@ -40,7 +108,11 @@ async function prepararSite() {
     let otimizado;
 
     if (arquivo.endsWith(".html")) {
-      otimizado = await minify(original, {
+      const conteudo = arquivo === "html/index.html"
+        ? original.replace(padraoFoto, () => imagemResponsiva)
+        : original;
+
+      otimizado = await minify(conteudo, {
         collapseWhitespace: true,
         removeComments: true
       });
@@ -61,7 +133,6 @@ async function prepararSite() {
     await fs.mkdir(path.dirname(saida), { recursive: true });
     await fs.writeFile(saida, otimizado, "utf8");
 
-    // Gera também uma cópia comprimida em gzip.
     const comprimido = gzipSync(Buffer.from(otimizado));
     await fs.writeFile(saida + ".gz", comprimido);
 
@@ -77,12 +148,27 @@ async function prepararSite() {
     recursive: true
   });
 
-  await fs.copyFile(
-    path.join(raiz, "Imagens/voluntarios.jpg"),
-    path.join(destino, "Imagens/voluntarios.jpg")
-  );
+  const relatorioImagens = [];
 
-  // Cria uma entrada para abrir o site pela raiz da publicação.
+  for (const imagem of imagens) {
+    await fs.writeFile(
+      path.join(destino, imagem.arquivo),
+      imagem.data
+    );
+
+    relatorioImagens.push({
+      arquivo: imagem.arquivo,
+      largura: imagem.info.width,
+      altura: imagem.info.height,
+      original: fotoOriginal.length,
+      otimizado: imagem.data.length,
+      reducao:
+        (100 * (1 - imagem.data.length / fotoOriginal.length))
+          .toFixed(2) + "%"
+    });
+  }
+
+  // Entrada para abrir o site pela raiz da publicação.
   await fs.writeFile(
     path.join(destino, "index.html"),
     `<!DOCTYPE html>
@@ -103,6 +189,7 @@ async function prepararSite() {
   );
 
   console.table(relatorio);
+  console.table(relatorioImagens);
   console.log("Build concluído! Abra dist/html/index.html.");
   console.log(
     "As cópias gzip exigem configuração do servidor para serem utilizadas."

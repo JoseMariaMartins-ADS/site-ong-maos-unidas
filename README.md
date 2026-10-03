@@ -148,7 +148,14 @@ npm.cmd run build
 
 O arquivo build.cjs gera a pasta dist com HTML, CSS e JavaScript
 minificados, preservando a estrutura de pastas e os arquivos originais.
-A imagem voluntarios.jpg é copiada sem alteração.
+O Sharp gera imagens WebP com larguras de 500 e 1.000 pixels
+e um JPEG otimizado de 1.000 pixels, com qualidade configurada em 80.
+As versões são gravadas em dist/Imagens, preservando a foto original.
+
+No HTML gerado, picture, srcset e sizes permitem ao navegador
+escolher uma versão WebP conforme a tela e sua densidade de pixels.
+O JPEG é utilizado como alternativa para navegadores sem suporte
+a WebP. O texto alternativo da imagem é preservado.
 
 Para abrir a versão otimizada no Windows:
 
@@ -195,3 +202,22 @@ Testes manuais realizados:
 - Geração do build e alternância na versão otimizada.
 
 Esses testes não representam uma auditoria completa de conformidade WCAG.
+## Otimização das imagens
+
+A foto original possui 2.100 × 1.817 pixels e 2.512.090 bytes.
+O build gera as seguintes versões:
+
+| Arquivo | Dimensões | Tamanho em bytes | Redução |
+| --- | --- | ---: | ---: |
+| voluntarios-500.webp | 500 × 432 | 40.908 | 98,37% |
+| voluntarios-1000.webp | 1.000 × 865 | 115.524 | 95,40% |
+| voluntarios.jpg otimizado | 1.000 × 865 | 132.133 | 94,74% |
+
+As reduções comparam cada versão com a foto original.
+
+Na versão local otimizada, conferi a aparência da foto e sua
+exibição após navegar para Projetos e retornar ao Início.
+O Chrome selecionou voluntarios-1000.webp nesse teste.
+
+Os valores demonstram a redução do tamanho dos arquivos.
+O tempo total de carregamento da página ainda não foi medido.
